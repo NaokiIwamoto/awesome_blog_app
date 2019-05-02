@@ -28,7 +28,7 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <div class="card-title">
-                                <h3>1</h3>
+                                <h3>{{auth()->user()->blogs()->count()}}</h3>
                             </div>
                             <div>
                                 <p>blogs posted</p>
@@ -56,14 +56,33 @@
                     </form>
                 </div>
             </div>
-            <div class="card bg-light mb-4">
-                <div class="card-body">
-                    <h3><strong>>title</strong></h3>
-                    <div class="dropdown-divider py-1"></div>
-                    <p>contents</p>
+            <div>
+                <div class="card bg-light mb-4">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h3><strong>Blogs</strong></h3>
+                        </div>
+                        <div class="list-group">
+                            @foreach ($blogs as $blog)
+                            <div class="list-group-item list-group-item-action mb-3 rounded">
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-1">{{ $blog->title }}</h5>
+                                        <small>Posted : {{ \Carbon\Carbon::createFromTimeStamp(strtotime($blog->created_at)) ->diffForHumans() }}</small>
+                                    </div>
+                                    <div class="dropdown-divider py-1"></div>
+                                    <p>{{ $blog->content}}</p>
+                                    <a class="btn btn-primary" href="/blog/{{$blog->id}}/delete" role="button">Delete</a>
+                                    <a class="btn btn-primary" href="/blog/{{$blog->id}}/edit" role="button">Edit</a>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

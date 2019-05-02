@@ -19,3 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/post', 'HomeController@post')->name('post');
+Route::get('/blog/{id}/delete', 'BlogController@delete');
+Route::get('/blog/{id}/edit', 'BlogController@edit');
+Route::get('/blog/{id}/update', 'BlogController@update');

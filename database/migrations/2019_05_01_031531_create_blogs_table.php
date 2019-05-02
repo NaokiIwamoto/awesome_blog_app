@@ -15,9 +15,10 @@ class CreateBlogsTable extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('users_id');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
-            $table->text('contents');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -29,6 +30,10 @@ class CreateBlogsTable extends Migration
      */
     public function down()
     {
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('blogs');
     }
 }
