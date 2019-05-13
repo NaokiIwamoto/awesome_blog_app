@@ -16,14 +16,14 @@ class UserController extends Controller
     public function users()
     {
         $auth_id = Auth::user()->id;
-        $users = User::where('id', '!=', $auth_id)->get();
+        $users = User::where('id', '!=', $auth_id)->paginate(10);
         // dd(auth()->user()->following()->find());
         return view('users', compact('users'));
     }
     public function user_home($id)
     {
         $user = User::find($id);
-        $blogs = $user->blogs()->get();
+        $blogs = $user->blogs()->orderBy('created_at', 'INC')->get();
         return view('user_home', compact('user', 'blogs'));
     }
     public function user_edit($id)
@@ -45,11 +45,23 @@ class UserController extends Controller
     {
         $user = User::find($id);
         Auth::user()->following()->save($user);
-        return redirect('/users');
+        return back();
     }
     public function unfollow($id)
     {
         auth()->user()->following()->detach($id);
-        return redirect('/users');
+        return back();
+    }
+    public function following($id)
+    {
+        $user = User::find($id);
+        $followings = $user->following()->get();
+        return view('following', compact('followings', 'user'));
+    }
+    public function follower($id)
+    {
+        $user = User::find($id);
+        $followers = $user->follower()->get();
+        return view('follower', compact('followers', 'user'));
     }
 }

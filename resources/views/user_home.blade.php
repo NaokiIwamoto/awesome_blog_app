@@ -11,16 +11,24 @@
                         <h2>{{ $user->first_name }} {{ $user->last_name }}</h2>
                     </div>
                     <div>
-                        <a class="btn btn-primary py-1 mb-2" href="#" role="button">Follow</a>
+                        @if (auth()->user()->following()->find($user->id) !== null)
+                        <a class="btn btn-secondary " href="/user/{{$user->id}}/unfollow" role="button">
+                            <i class="fas fa-user-slash"></i>Unfollow
+                        </a>
+                        @else
+                        <a class="btn btn-primary " href="/user/{{$user->id}}/follow" role="button">
+                            <i class="fas fa-user-plus"></i> Follow
+                        </a>
+                        @endif
                     </div>
                     <div class="dropdown-divider py-1"></div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <a class="pb-3" href=""><strong>{{ $user->following()->count() }}</strong></a>
+                            <a class="pb-3" href="/user/{{ $user->id }}/following"><strong>{{ $user->following()->count() }}</strong></a>
                             <p>following</p>
                         </div>
                         <div class="col-sm-6">
-                            <a class="pb-3" href=""><strong>{{ $user->follower()->count() }}</strong></a>
+                            <a class="pb-3" href="/user/{{ $user->id }}/follower"><strong>{{ $user->follower()->count() }}</strong></a>
                             <p>followers</p>
                         </div>
                     </div>
@@ -47,6 +55,7 @@
                             <h3><strong>Blogs</strong></h3>
                         </div>
                         <div class="list-group">
+                            @if (auth()->user()->following()->find($user->id) !== null)
                             @foreach ($blogs as $blog)
                             <div class="list-group-item list-group-item-action mb-3 rounded">
                                 <div class="w-100">
@@ -56,9 +65,21 @@
                                     </div>
                                     <div class="dropdown-divider py-1"></div>
                                     <p>{{ $blog->content }}</p>
+                                    @if (auth()->user()->like_user()->find($blog->id) !== null)
+                                    <a class="btn  btn-secondary" href="/blog/{{$blog->id}}/dislike" role="button">
+                                        Dislike
+                                    </a>
+                                    @else
+                                    <a class="btn btn-primary " href="/blog/{{$blog->id}}/like" role="button">
+                                        Like
+                                    </a>
+                                    @endif
                                 </div>
                             </div>
                             @endforeach
+                            @else
+                            <h3>You are not following this user!</h3>
+                            @endif
                         </div>
                     </div>
                 </div>

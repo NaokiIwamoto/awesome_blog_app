@@ -11,16 +11,16 @@
                         <h2>{{auth()->user()->first_name}} {{auth()->user()->last_name}}</h2>
                     </div>
                     <div>
-                        <a class="btn btn-primary py-1 mb-2" href="/user/{{auth()->user()->id}}/edit" role="button">Edit Profile</a>
+                        <a class="btn btn-primary py-1 mb-2" href="/user/{{auth()->user()->id}}/edit" role="button"><i class="fas fa-user-edit"></i> Edit Profile</a>
                     </div>
                     <div class="dropdown-divider py-1"></div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <a class="pb-3" href=""><strong>{{ auth()->user()->following()->count() }}</strong></a>
+                            <a class="pb-3" href="/user/{{ auth()->user()->id }}/following"><strong>{{ auth()->user()->following()->count() }}</strong></a>
                             <p>following</p>
                         </div>
                         <div class="col-sm-6">
-                            <a class="pb-3" href=""><strong>{{ auth()->user()->follower()->count() }}</strong></a>
+                            <a class="pb-3" href="user/{{ auth()->user()->id }}/follower"><strong>{{ auth()->user()->follower()->count() }}</strong></a>
                             <p>followers</p>
                         </div>
                     </div>
@@ -72,8 +72,11 @@
                                     </div>
                                     <div class="dropdown-divider py-1"></div>
                                     <p>{{ $blog->content}}</p>
-                                    <a class="btn btn-primary" href="/blog/{{$blog->id}}/delete" role="button">Delete</a>
-                                    <a class="btn btn-primary" href="/blog/{{$blog->id}}/edit" role="button">Edit</a>
+                                    <div align="right">
+                                        <a href="/blog/{{$blog->id}}/delete"><i class="fas fa-trash-alt"></i></a>
+                                        <a href="/blog/{{$blog->id}}/edit"><i class="fas fa-edit"></i></a>
+                                    </div>
+                                    <p>Liked : {{ $blog->like_blog()->count() }}</p>
                                 </div>
                             </div>
                             @endforeach

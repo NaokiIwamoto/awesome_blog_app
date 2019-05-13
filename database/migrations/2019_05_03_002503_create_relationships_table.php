@@ -32,10 +32,13 @@ class CreateRelationshipsTable extends Migration
      */
     public function down()
     {
-        Schema::table('followers', function (Blueprint $table) {
-            $table->dropForeign(['users_id']);
+        Schema::table('relationships', function (Blueprint $table) {
+            $table->dropForeign(['follower_id']);
+        });
+        Schema::table('relationships', function (Blueprint $table) {
+            $table->dropForeign(['followed_id']);
         });
 
-        Schema::dropIfExists('followers');
+        Schema::dropIfExists('relationships');
     }
 }

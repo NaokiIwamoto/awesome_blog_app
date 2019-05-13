@@ -30,4 +30,16 @@ class BlogController extends Controller
         $blog->save();
         return redirect('/home');
     }
+    public function like($id)
+    {
+        $blog = Blog::find($id);
+        Auth::user()->like_user()->save($blog);
+        return back();
+    }
+    public function dislike($id)
+    {
+        $blog = Blog::find($id);
+        auth()->user()->like_user()->detach($blog);
+        return back();
+    }
 }
